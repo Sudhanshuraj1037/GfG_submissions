@@ -1,41 +1,22 @@
-# class Solution:
-#     def rotateArr(self, arr, d):
-#         # code here
-#         for i in range(0, d-1):
-
-# class Solution:
-#     def rotateArr(self, arr, d):
-#         d = d % len(arr)
-#         arr[:] = arr[d:] + arr[:d]
-
-# class Solution:
-#     def rotateArr(self, arr, d):
-#         n = len(arr)
-#         d = d % n
-
-#         # Reverse first d elements
-#         left, right = 0, d - 1
-#         while left < right:
-#             arr[left], arr[right] = arr[right], arr[left]
-#             left += 1
-#             right -= 1
-
 class Solution:
     def rotateArr(self, arr, d):
         n = len(arr)
-        d %= n
+        d %= n  # 1. Badi d values ko handle karne ke liye (Fixes out-of-bound)
 
-        def reverse(l, r):
-            while l < r:
-                arr[l], arr[r] = arr[r], arr[l]
-                l += 1
-                r -= 1
+        temp = []
 
-        # Reverse first d elements
-        reverse(0, d - 1)
+        # Pehle d elements ko temp mein daala
+        for i in range(0, d):
+            temp.append(arr[i])
 
-        # Reverse remaining elements
-        reverse(d, n - 1)
+        # Baaki bache elements ko aage shift kiya
+        for i in range(d, n):
+            arr[i - d] = arr[i]
 
-        # Reverse the entire array
-        reverse(0, n - 1)
+        # 2. temp se elements ko wapas array ke end mein daala (Syntax & Logic Fix)
+        k = 0
+        for i in range(n - d, n):
+            arr[i] = temp[k]
+            k += 1
+
+        return arr
